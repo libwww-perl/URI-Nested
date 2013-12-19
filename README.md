@@ -1,4 +1,4 @@
-URI/Nested version 0.10
+URI/Nested version 0.11
 =======================
 
 This library implements a Perl interface for nested URIs -- that is, URIs that

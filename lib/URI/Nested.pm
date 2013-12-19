@@ -2,7 +2,7 @@ package URI::Nested;
 
 use strict;
 use 5.8.1;
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 use overload '""' => 'as_string', fallback => 1;
 
 sub prefix {
