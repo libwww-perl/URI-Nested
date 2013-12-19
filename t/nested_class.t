@@ -32,13 +32,13 @@ ok my $err = $@, 'Should get error changing to non-BLAH scheme';
 like $err, qr/Cannot change URI::blah scheme/, 'Should be the proper error';
 
 # Now use a non-blah-qalified URI.
-isa_ok $uri = URI->new('pg:'), 'URI::pg', 'Opaque Pg URI';
-is $uri->scheme, 'pg', 'Pg URI scheme should be "pg"';
+isa_ok $uri = URI->new('nonesuch:'), 'URI::_foreign', 'Opaque Nonesuch URI';
+is $uri->scheme, 'nonesuch', 'Nonesuch URI scheme should be "nonesuch"';
 
 # Try constructor.
-isa_ok $uri = URI::blah->new('pg:'), 'URI::blah', 'pg URI';
-isa_ok $uri->nested_uri, 'URI::_blah', 'pg URI URI';
-is $uri->as_string, 'blah:pg:', 'pg URI should be correct';
+isa_ok $uri = URI::blah->new('nonesuch:'), 'URI::blah', 'nonesuch URI';
+isa_ok $uri->nested_uri, 'URI::_blah', 'nonesuch URI URI';
+is $uri->as_string, 'blah:nonesuch:', 'nonesuch URI should be correct';
 
 # Should convert non-blah URI to a blah URI.
 isa_ok $uri = URI::blah->new('foo:'), 'URI::blah', 'foo URI';
@@ -46,9 +46,9 @@ isa_ok $uri->nested_uri, 'URI::_blah', 'foo URI URI';
 is $uri->as_string, 'blah:foo:', 'foo URI should be correct';
 
 # Should pay attention to base URI.
-isa_ok $uri = URI::blah->new('foo', 'pg:'), 'URI::blah', 'blah URI with pg base';
-isa_ok $uri->nested_uri, 'URI::_blah', 'blah:pg URI';
-is $uri->as_string, 'blah:pg:foo', 'blah URI with pg: base should be correct';
+isa_ok $uri = URI::blah->new('foo', 'nonesuch:'), 'URI::blah', 'blah URI with nonesuch base';
+isa_ok $uri->nested_uri, 'URI::_blah', 'blah:nonesuch URI';
+is $uri->as_string, 'blah:nonesuch:foo', 'blah URI with nonesuch: base should be correct';
 
 # Should pay attention to blah: base URI.
 isa_ok $uri = URI::blah->new('foo', 'blah:'), 'URI::blah', 'blah URI with blah base';
@@ -89,23 +89,23 @@ is $uri->as_string, 'blah:bar:foo', 'blah URI with obj base should be correct';
 isa_ok $base, 'URI', 'bar base URI';
 
 # Try new_abs.
-isa_ok $uri = URI::blah->new_abs('foo', 'pg:'), 'URI::pg';
-is $uri->as_string, 'pg:/foo', 'Should have pg: URI';
-isa_ok $uri = URI::blah->new_abs('foo', 'blah:pg:'), 'URI::blah';
-is $uri->as_string, 'blah:pg:/foo', 'Should have blah:pg: URI';
+isa_ok $uri = URI::blah->new_abs('foo', 'nonesuch:'), 'URI::_foreign';
+is $uri->as_string, 'nonesuch:/foo', 'Should have nonesuch: URI';
+isa_ok $uri = URI::blah->new_abs('foo', 'blah:nonesuch:'), 'URI::blah';
+is $uri->as_string, 'blah:nonesuch:/foo', 'Should have blah:nonesuch: URI';
 isa_ok $uri = URI::blah->new_abs('foo', 'blah:'), 'URI::blah';
 is $uri->as_string, 'blah:foo', 'Should have blah: URI';
 isa_ok $uri = URI::blah->new_abs('foo', 'bar:'), 'URI::_generic';
 isa_ok $uri = URI::blah->new_abs('foo', 'file::'), 'URI::file';
-isa_ok $uri = URI::blah->new_abs('pg:foo', 'pg:'), 'URI::pg';
-is $uri->as_string, 'pg:foo', 'Should have pg:foo URI';
+isa_ok $uri = URI::blah->new_abs('nonesuch:foo', 'nonesuch:'), 'URI::_foreign';
+is $uri->as_string, 'nonesuch:foo', 'Should have nonesuch:foo URI';
 isa_ok $uri = URI::blah->new_abs('blah:foo', 'blah:'), 'URI::blah';
 is $uri->as_string, 'blah:foo', 'Should have blah:foo URI';
-isa_ok $uri = URI::blah->new_abs('blah:pg:foo', 'blah:pg:'), 'URI::blah';
-is $uri->as_string, 'blah:pg:foo', 'Should have blah:pg:foo URI';
+isa_ok $uri = URI::blah->new_abs('blah:nonesuch:foo', 'blah:nonesuch:'), 'URI::blah';
+is $uri->as_string, 'blah:nonesuch:foo', 'Should have blah:nonesuch:foo URI';
 
 # Test abs.
-isa_ok $uri = URI->new('blah:pg:'), 'URI::blah';
+isa_ok $uri = URI->new('blah:nonesuch:'), 'URI::blah';
 is overload::StrVal( $uri->abs('file:/hi') ),
    overload::StrVal($uri),
     'abs should return URI object itself';
@@ -126,6 +126,6 @@ ok $uri->eq($uri), 'URI should equal itself';
 ok $uri->eq($uri->as_string), 'URI should equal itself stringified';
 ok $uri->eq(URI->new( $uri->as_string )), 'URI should equal equiv URI';
 ok $uri->eq($uri->clone), 'URI should equal itself cloned';
-ok !$uri->eq('pg:'), 'URI should not equal non-BLAH URI';
+ok !$uri->eq('nonesuch:'), 'URI should not equal non-BLAH URI';
 
 done_testing;

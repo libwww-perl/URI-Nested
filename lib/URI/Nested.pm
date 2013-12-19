@@ -142,6 +142,7 @@ URI::Nested - Nested URIs
   use parent 'URI::Nested';
   sub prefix       { 'jdbc' }
   sub nested_class { undef  }
+  sub subprotocol  { shift->nested_uri->scheme(@_) }
 
   package main;
   my $jdbc_uri = URI->new('jdbc:oracle:scott/tiger@//myhost:1521/myservicename');
@@ -152,7 +153,7 @@ URI::Nested - Nested URIs
 This class provides support for nested URIs, where the scheme is a prefix, and
 the remainder of the URI is another URI. Examples include L<JDBC
 URIs|http://docs.oracle.com/cd/B14117_01/java.101/b10979/urls.htm#BEIJFHHB>
-and L<database URIs|https://metacpan.org/module/URI::db>.
+and L<database URIs|https://github.com/theory/uri-db>.
 
 =head1 Interface
 
