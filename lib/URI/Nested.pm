@@ -7,9 +7,7 @@ use overload '""' => 'as_string', fallback => 1;
 
 sub prefix {
     my $class = ref $_[0] || shift;
-    my $pkg = quotemeta __PACKAGE__;
-    $class =~ s/^$pkg(?:\::)?//;
-    return $class;
+    return (split /::/ => $class)[-1];
 }
 
 sub nested_class { undef }
