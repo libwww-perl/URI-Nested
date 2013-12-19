@@ -55,16 +55,16 @@ isa_ok $uri = URI::blah->new('foo', 'blah:'), 'URI::blah', 'blah URI with blah b
 isa_ok $uri->nested_uri, 'URI::_blah', 'blah base URI';
 is $uri->as_string, 'blah:foo', 'blah URI with blah: base should be correct';
 
-# Should pay attention to blah:pg base URI.
-isa_ok $uri = URI::blah->new('foo', 'blah:pg'), 'URI::blah', 'blah URI with blah:pg base';
-isa_ok $uri->nested_uri, 'URI::_blah', 'blah:pg base URI';
-is $uri->as_string, 'blah:pg:foo', 'blah URI with blah:pg base should be correct';
+# Should pay attention to blah:nonesuch base URI.
+isa_ok $uri = URI::blah->new('foo', 'blah:nonesuch'), 'URI::blah', 'blah URI with blah:nonesuch base';
+isa_ok $uri->nested_uri, 'URI::_blah', 'blah:nonesuch base URI';
+is $uri->as_string, 'blah:foo', 'blah URI with blah:nonesuch base should be correct';
 
-# Try with a blah:pg base.
-my $base = URI->new('blah:pg');
+# Try with a blah:nonesuch base.
+my $base = URI->new('blah:nonesuch');
 isa_ok $uri = URI::blah->new('foo', $base), 'URI::blah', 'blah URI with obj base';
 isa_ok $uri->nested_uri, 'URI::_blah', 'obj base URI';
-is $uri->as_string, 'blah:pg:foo', 'blah URI with obj base should be correct';
+is $uri->as_string, 'blah:foo', 'blah URI with obj base should be correct';
 isa_ok $base, 'URI::blah', 'base URI';
 
 # Try with a blah: base.
